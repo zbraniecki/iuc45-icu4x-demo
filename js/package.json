@@ -9,6 +9,7 @@
   "author": "Shane F. Carr",
   "license": "ISC",
   "dependencies": {
-    "icu4x-wasm": "file:../../omnicu/ffi/diplomat/wasm"
+    "icu4x-wasm": "file:../../omnicu/ffi/diplomat/wasm",
+    "jquery": "^3.6.0"
   }
 }

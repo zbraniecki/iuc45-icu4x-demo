@@ -8,7 +8,7 @@ DATAGEN?=icu4x-datagen
 
 data/%.postcard:
 	mkdir -p data
-	$(DATAGEN) --format=blob --out=$@ --all-keys --cldr-testdata -l $(basename $(notdir $@))
+	$(DATAGEN) --format=blob --out=$@ -k "decimal/symbols@1" -k "plurals/cardinal@1" -k "plurals/ordinal@1" --cldr-testdata -l $(basename $(notdir $@))
 
 
 all: data/ar.postcard \

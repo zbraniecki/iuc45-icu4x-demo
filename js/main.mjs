@@ -1,13 +1,52 @@
-import { ICU4XFixedDecimal, ICU4XDataProvider, ICU4XLocale, ICU4XFixedDecimalFormat, ICU4XFixedDecimalFormatOptions } from "./node_modules/icu4x-wasm/lib/api.mjs"
+import {
+    ICU4XDataProvider,
+    ICU4XLocale,
+    ICU4XFixedDecimal,
+    ICU4XFixedDecimalFormat,
+    ICU4XFixedDecimalFormatOptions,
+    ICU4XPluralRules,
+    ICU4XPluralOperands,
+} from "./node_modules/icu4x-wasm/lib/api.mjs"
 
-const decimal = ICU4XFixedDecimal.create(1234);
-decimal.multiply_pow10(-2);
-decimal.negate();
-console.log(decimal.to_string());
+let currentLocale = null;
+let currentProvider = null;
 
-const dataProvider = ICU4XDataProvider.create_static().provider;
+export async function loadLocale(locale) {
+    const response = await fetch(`data/${locale}.postcard`);
+    const blob = await response.blob();
+    const arrayBuffer = await blob.arrayBuffer();
+    const result = ICU4XDataProvider.create_from_byte_slice(arrayBuffer);
+    if (result.success) {
+        currentLocale = ICU4XLocale.create(locale);
+        currentProvider = result.provider;
+        return true;
+    } else {
+        console.error("Could not create new data provider");
+        return false;
+    }
+};
 
-const locale = ICU4XLocale.create("bn");
+export function formatNumber(input) {
+    const decimalResult = ICU4XFixedDecimal.create_fromstr(String(input));
+    if (!decimalResult.success) {
+        console.error("Could not create ICU4XFixedDecimal");
+        return false;
+    }
+    console.log("Created decimal:", decimalResult.fd.to_string());
+    const fmtResult = ICU4XFixedDecimalFormat.try_new(currentLocale, currentProvider, ICU4XFixedDecimalFormatOptions.default());
+    if (!fmtResult.success) {
+        console.error("Could not create ICU4XFixedDecimalFormat");
+        return false;
+    }
+    return fmtResult.fdf.format(decimalResult.fd);
+};
 
-const format = ICU4XFixedDecimalFormat.try_new(locale, dataProvider, ICU4XFixedDecimalFormatOptions.default()).fdf;
-console.log(format.format(decimal));
+export function getPluralForm(input) {
+    const operands = ICU4XPluralOperands.create(String(input));
+    const prulesResult = ICU4XPluralRules.create(currentLocale, currentProvider);
+    if (!prulesResult.success) {
+        console.error("Could not create ICU4XPluralRules");
+        return false;
+    }
+    return prulesResult.rules.select(operands);
+}

@@ -1,5 +1,91 @@
-<html>
-  <body>
-    <script type="module" src="./main.mjs"></script>
-  </body>
+<!DOCTYPE html>
+<head>
+<title>TITLE_HERE</title>
+<script type="module" src="./main.mjs"></script>
+<script src="./node_modules/jquery/dist/jquery.js"></script>
+<style type="text/css">
+body{
+	width: 400px;
+	background-color: lightslategrey;
+	margin: 0 auto;
+	padding: 0;
+	font:12px/16px Verdana, sans-serif;
+}
+div#main{
+	background-color: #FFF;
+	margin: 0;
+	padding: 10px;
+  text-align: center;
+}
+
+#num {
+  font-size: 2em;
+}
+.large {
+  font-size: 2em;
+  line-height: 1.2em;
+}
+#formatted {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+</style>
+</head>
+<body><div id="main">
+
+<h1>IUC 45 ICU4X Demo</h1>
+
+<p>
+  <select id="language">
+    <option value="ar">ar</option>
+    <option value="ar-EG">ar-EG</option>
+    <option value="bn">bn</option>
+    <option value="ccp">ccp</option>
+    <option value="en" selected>en</option>
+    <option value="en-001">en-001</option>
+    <option value="en-ZA">en-ZA</option>
+    <option value="es">es</option>
+    <option value="es-AR">es-AR</option>
+    <option value="fr">fr</option>
+    <option value="ja">ja</option>
+    <option value="ru">ru</option>
+    <option value="sr">sr</option>
+    <option value="sr-Cyrl">sr-Cyrl</option>
+    <option value="sr-Latn">sr-Latn</option>
+    <option value="th">th</option>
+    <option value="tr">tr</option>
+    <option value="und">und</option>
+  </select>
+</p>
+
+<p>
+  <input type="number" id="num" value="0" />
+</p>
+
+<p class="large">
+  Formatted: <output id="formatted"></output><br/>
+  Plural Form: <output id="plural"></output>
+</p>
+
+</div></body>
+<script type="module">
+import * as icu4x from "./main.mjs";
+
+function update() {
+  $("#formatted").text(icu4x.formatNumber($("#num").val()));
+  const pluralFormResult = icu4x.getPluralForm($("#num").val());
+  if (pluralFormResult) {
+    $("#plural").text(pluralFormResult);
+  } else {
+    $("#plural").text("(no data)");
+  }
+}
+
+icu4x.loadLocale("en").then(update);
+$("#language").change(async () => {
+  await icu4x.loadLocale($("#language").val());
+  update();
+});
+$("#num").keyup(update);
+$("#num").change(update);
+</script>
 </html>
