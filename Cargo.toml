@@ -1,0 +1,7 @@
+[package]
+name = "iuc_icu4x_demo"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+icu = { git = "https://github.com/unicode-org/icu4x", rev = "530279a1c48f8d3f7d18a9cdf4441ff862d00b13" }

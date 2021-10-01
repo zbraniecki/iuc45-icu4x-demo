@@ -1,0 +1,14 @@
+{
+  "name": "iuc-icu4x-demo",
+  "version": "0.0.1",
+  "description": "JavaScript demo for IUC 45",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shane F. Carr",
+  "license": "ISC",
+  "dependencies": {
+    "icu4x-wasm": "file:../../omnicu/ffi/diplomat/wasm"
+  }
+}
