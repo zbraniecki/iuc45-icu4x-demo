@@ -1,34 +1,9 @@
 <!DOCTYPE html>
 <head>
-<title>TITLE_HERE</title>
+<title>IUC 45 ICU4X Demo</title>
 <script type="module" src="./main.mjs"></script>
 <script src="./node_modules/jquery/dist/jquery.js"></script>
-<style type="text/css">
-body{
-	width: 400px;
-	background-color: lightslategrey;
-	margin: 0 auto;
-	padding: 0;
-	font:12px/16px Verdana, sans-serif;
-}
-div#main{
-	background-color: #FFF;
-	margin: 0;
-	padding: 10px;
-  text-align: center;
-}
-
-#num {
-  font-size: 2em;
-}
-.large {
-  font-size: 2em;
-  line-height: 1.2em;
-}
-#formatted {
-  font-family: Georgia, 'Times New Roman', Times, serif;
-}
-</style>
+<link rel="stylesheet" href="./styles.css" />
 </head>
 <body><div id="main">
 
@@ -67,6 +42,7 @@ div#main{
 </p>
 
 </div></body>
+
 <script type="module">
 import * as icu4x from "./main.mjs";
 
@@ -88,4 +64,5 @@ $("#language").change(async () => {
 $("#num").keyup(update);
 $("#num").change(update);
 </script>
+
 </html>

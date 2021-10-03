@@ -21,7 +21,7 @@ export async function loadLocale(locale) {
         currentProvider = result.provider;
         return true;
     } else {
-        console.error("Could not create new data provider");
+        console.error("Could not create new data provider for:", locale);
         return false;
     }
 };
@@ -29,13 +29,13 @@ export async function loadLocale(locale) {
 export function formatNumber(input) {
     const decimalResult = ICU4XFixedDecimal.create_fromstr(String(input));
     if (!decimalResult.success) {
-        console.error("Could not create ICU4XFixedDecimal");
+        console.error("Could not create ICU4XFixedDecimal for:", input);
         return false;
     }
     console.log("Created decimal:", decimalResult.fd.to_string());
     const fmtResult = ICU4XFixedDecimalFormat.try_new(currentLocale, currentProvider, ICU4XFixedDecimalFormatOptions.default());
     if (!fmtResult.success) {
-        console.error("Could not create ICU4XFixedDecimalFormat");
+        console.error("Could not create ICU4XFixedDecimalFormat for:", currentLocale);
         return false;
     }
     return fmtResult.fdf.format(decimalResult.fd);
@@ -45,7 +45,7 @@ export function getPluralForm(input) {
     const operands = ICU4XPluralOperands.create(String(input));
     const prulesResult = ICU4XPluralRules.create(currentLocale, currentProvider);
     if (!prulesResult.success) {
-        console.error("Could not create ICU4XPluralRules");
+        console.error("Could not create ICU4XPluralRules for:", currentLocale);
         return false;
     }
     return prulesResult.rules.select(operands);

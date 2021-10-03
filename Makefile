@@ -6,29 +6,36 @@
 
 DATAGEN?=icu4x-datagen
 
-data/%.postcard:
+js/data/%.postcard:
 	mkdir -p data
 	$(DATAGEN) --format=blob --out=$@ -k "decimal/symbols@1" -k "plurals/cardinal@1" -k "plurals/ordinal@1" --cldr-testdata -l $(basename $(notdir $@))
 
+all: data
 
-all: data/ar.postcard \
-    data/ar-EG.postcard \
-    data/bn.postcard \
-    data/ccp.postcard \
-    data/en.postcard \
-    data/en-001.postcard \
-    data/en-ZA.postcard \
-    data/es.postcard \
-    data/es-AR.postcard \
-    data/fr.postcard \
-    data/ja.postcard \
-    data/ru.postcard \
-    data/sr.postcard \
-    data/sr-Cyrl.postcard \
-    data/sr-Latn.postcard \
-    data/th.postcard \
-    data/tr.postcard \
-    data/und.postcard
+data: js/data/ar.postcard \
+	js/data/ar-EG.postcard \
+	js/data/bn.postcard \
+	js/data/ccp.postcard \
+	js/data/en.postcard \
+	js/data/en-001.postcard \
+	js/data/en-ZA.postcard \
+	js/data/es.postcard \
+	js/data/es-AR.postcard \
+	js/data/fr.postcard \
+	js/data/ja.postcard \
+	js/data/ru.postcard \
+	js/data/sr.postcard \
+	js/data/sr-Cyrl.postcard \
+	js/data/sr-Latn.postcard \
+	js/data/th.postcard \
+	js/data/tr.postcard \
+	js/data/und.postcard
 
 clean:
 	rm -rf data
+
+run-js: all
+	npm install --prefix js
+	npm run server --prefix js
+
+.PHONY: all clean data run-js

@@ -4,12 +4,17 @@
   "description": "JavaScript demo for IUC 45",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "http-server"
   },
   "author": "Shane F. Carr",
   "license": "ISC",
   "dependencies": {
+    "http-server": "^13.0.2",
     "icu4x-wasm": "file:../../omnicu/ffi/diplomat/wasm",
     "jquery": "^3.6.0"
+  },
+  "peerDependencies": {
+    "icu4x-wasm": "^0.0.1"
   }
 }
