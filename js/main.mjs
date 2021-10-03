@@ -11,18 +11,36 @@ import {
 let currentLocale = null;
 let currentProvider = null;
 
+const dataCache = new Map();
+
 export async function loadLocale(locale) {
+    let result = dataCache.get(locale);
+    if (!result) {
+        let tmp = await doLoadLocale(locale);
+        result = dataCache.get(locale);
+        if (!result) {
+            result = tmp;
+            dataCache.set(locale, tmp);
+        }
+    }
+    if (result) {
+        currentLocale = ICU4XLocale.create(locale);
+        currentProvider = result;
+        return true;
+    }
+    return false;
+}
+
+async function doLoadLocale(locale) {
     const response = await fetch(`data/${locale}.postcard`);
     const blob = await response.blob();
     const arrayBuffer = await blob.arrayBuffer();
     const result = ICU4XDataProvider.create_from_byte_slice(arrayBuffer);
     if (result.success) {
-        currentLocale = ICU4XLocale.create(locale);
-        currentProvider = result.provider;
-        return true;
+        return result.provider;
     } else {
         console.error("Could not create new data provider for:", locale);
-        return false;
+        return null;
     }
 };
 
