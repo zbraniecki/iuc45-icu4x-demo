@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ICU4XPluralRules.hpp"
-#include "ICU4XCreatePluralOperandsResult.hpp"
+#include "ICU4XFixedDecimalFormat.hpp"
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -44,7 +44,6 @@ void MainWindow::selectCategory()
     const ICU4XPluralOperands& op = ICU4XPluralOperands::create(std::to_string(value)).operands;
     ICU4XPluralCategory cat = pr.select(op);
 
-
     switch(cat)
     {
       case ICU4XPluralCategory::One:
@@ -63,5 +62,15 @@ void MainWindow::selectCategory()
         ui->label_2->setText("other");
         break;
     }
+
+    ICU4XFixedDecimal fd = ICU4XFixedDecimal::create(value);
+    std::optional<ICU4XFixedDecimalFormat> maybeFdf = ICU4XFixedDecimalFormat::try_new(locale, dp, {}).fdf;
+    if (!maybeFdf) {
+      return;
+    }
+    ICU4XFixedDecimalFormat &fdf = maybeFdf.value();
+    auto result = fdf.format(fd).ok().value();
+    QString qstr = QString::fromStdString(result);
+    ui->label_5->setText(qstr);
 }
 

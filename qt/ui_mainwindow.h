@@ -29,6 +29,8 @@ public:
     QLabel *label;
     QLabel *label_2;
     QLabel *label_3;
+    QLabel *label_4;
+    QLabel *label_5;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -66,13 +68,14 @@ public:
         spinBox->setObjectName(QString::fromUtf8("spinBox"));
         spinBox->setGeometry(QRect(270, 240, 241, 41));
         spinBox->setFont(font);
+        spinBox->setMaximum(99999999);
         label = new QLabel(centralwidget);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(250, 300, 201, 31));
+        label->setGeometry(QRect(250, 360, 201, 31));
         label->setFont(font);
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setGeometry(QRect(460, 300, 81, 31));
+        label_2->setGeometry(QRect(450, 360, 181, 31));
         label_2->setFont(font);
         label_3 = new QLabel(centralwidget);
         label_3->setObjectName(QString::fromUtf8("label_3"));
@@ -82,6 +85,14 @@ public:
         font1.setBold(true);
         font1.setWeight(75);
         label_3->setFont(font1);
+        label_4 = new QLabel(centralwidget);
+        label_4->setObjectName(QString::fromUtf8("label_4"));
+        label_4->setGeometry(QRect(250, 300, 201, 31));
+        label_4->setFont(font);
+        label_5 = new QLabel(centralwidget);
+        label_5->setObjectName(QString::fromUtf8("label_5"));
+        label_5->setGeometry(QRect(450, 300, 191, 31));
+        label_5->setFont(font);
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -117,6 +128,8 @@ public:
         label->setText(QCoreApplication::translate("MainWindow", "Plural Category:", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "one", nullptr));
         label_3->setText(QCoreApplication::translate("MainWindow", "IUC 45 ICU4X Demo", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "Formatted:", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
     } // retranslateUi
 
 };
